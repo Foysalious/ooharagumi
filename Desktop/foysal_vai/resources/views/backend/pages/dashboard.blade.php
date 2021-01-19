@@ -33,7 +33,7 @@
         <section class="statistics">
             <div class="row" style="margin-bottom: 15px;">
                 <div class="col-md-12">
-                    <h2>You have new messages</h2>
+                    
                 </div>
             </div>
             <div class="row">
@@ -43,8 +43,8 @@
                     <a href="#">
                         <div class="stat-card">
                             <i class="fas fa-history"></i>
-                            <h3>Total Menu</h3>
-                            <p>15</p>
+                            <h3>Total</h3>
+                            <p></p>
                         </div>
                     </a>                
                 </div>

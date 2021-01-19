@@ -70,4 +70,27 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    protected function register(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
+
+    protected function userEdit(User $user, Request $request )
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+   
+        if($request->password==$request->password_confirmation){
+            $user->password=Hash::make($request['password']);  
+        }
+        $user->save();
+       
+       
+    }
 }
