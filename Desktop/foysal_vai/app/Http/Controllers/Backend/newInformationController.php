@@ -124,16 +124,18 @@ class newInformationController extends Controller
         return redirect()->route('');
     }
 
-    /**
+    /** 
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(newInfo $newInfo)
+    public function search(Request $request)
     {
-        $newInfo->delete();
-        
-        return redirect()->route('');
+      $from=$request->from;
+      $to=$request->to;
+      $search=newInfo::orwhere('status', 'LIKE', "%$request->status%")->whereBetween('date', [$from, $to])->orwhere('title', 'LIKE', "%$request->title%");
+        // return $search;
+    return view('');
     }
 }

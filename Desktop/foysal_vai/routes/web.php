@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Backend\TopController;
 use App\Http\Controllers\Backend\newInformationController;
+use App\Http\Controllers\Backend\ConstructionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,4 +57,12 @@ Route::group(['prefix' => 'news'], function(){
     Route::post('/store',[newsController::class,'store'])->name('newsStore');
     Route::post('/update/{news:id}',[newsController::class,'update'])->name('newsUpdate');
     Route::post('/delete/{news:id}',[newsController::class,'destroy'])->name('newsDelete');
+});
+
+//Construction Information route start
+Route::group(['prefix' => 'news'], function(){
+    Route::get('/',[ConstructionController::class, 'index'])->name('constructionShow');
+    Route::post('/store',[ConstructionController::class,'store'])->name('constructionStore');
+    Route::post('/update/{construction:id}',[ConstructionController::class,'update'])->name('constructionUpdate');
+    Route::post('/delete/{construction:id}',[ConstructionController::class,'destroy'])->name('constructionDelete');
 });
