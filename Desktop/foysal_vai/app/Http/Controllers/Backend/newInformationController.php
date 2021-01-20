@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\newInfo;
+use Auth;
+use Carbon;
 
 class newInformationController extends Controller
 {
@@ -38,10 +40,24 @@ class newInformationController extends Controller
     public function store(Request $request)
     {
         $newInfo = new newInfo();
-        $newInfo->status = $request->status;
-        $newInfo->from_date = $request->from_date;
-        $newInfo->to_date = $request->to_date;
+        $newInfo->status = $request->newInfo;
+        $newInfo->date = $request->date;
         $newInfo->title = $request->title;
+        $newInfo->description = $request->description;
+        $newInfo->creation_date = Carbon::now()->toDateTimeString();
+        $newInfo->author_id = Auth::user()->id;
+       
+        
+        
+        $newInfo->logo = $request->logo;
+        if( $request->image ){
+            $image  = $request->file('image');
+            $img    = rand(0, 100) . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $img);
+            Image::make($image)->save($location);
+            $newInfo->image = $img;
+        }
+
       
         $newInfo->save();
         // Toastr::success('Personal Info');
@@ -80,10 +96,29 @@ class newInformationController extends Controller
     public function update(Request $request,newInfo $newInfo )
     {
         $newInfo->status = $request->status;
-        $newInfo->from_date = $request->from_date;
-        $newInfo->to_date = $request->to_date;
+        $newInfo->date = $request->date;
         $newInfo->title = $request->title;
+        $newInfo->description = $request->description;
+        
+        $newInfo->update_date = Carbon::now()->toDateTimeString();
+        $newInfo->changer = Auth::user()->id;
       
+        $newInfo->logo = $request->logo;
+        
+
+        if( $request->image ){
+            if( File::exists('images/'. $newInfo->image) ){
+                File::delete('images/'. $newInfo->image);
+            }
+            $image  = $request->file('image');
+            $img    = rand(0, 100) . '.' . $image->getClientOriginalExtension();
+            $location = public_path('images/' . $img);
+            Image::make($image)->save($location);
+            $newInfo->image = $img;
+        }
+
+        
+
         $newInfo->save();
         // Toastr::success('Personal Info');
         return redirect()->route('');
