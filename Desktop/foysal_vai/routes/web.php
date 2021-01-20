@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,18 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+ //User route start
+ Route::group(['prefix' => 'users'], function(){
+    Route::get('/',[RegisterController::class, 'index'])->name('userShow');
+    Route::post('/store',[RegisterController::class,'store'])->name('userStore');
+    Route::post('/update/{user:id}',[RegisterController::class,'update'])->name('userUpdate');
+    Route::post('/delete/{user:id}',[RegisterController::class,'destroy'])->name('userDelete');
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//New Information route start
+Route::group(['prefix' => 'newinfo'], function(){
+    Route::get('/',[newInformationController::class, 'index'])->name('infoShow');
+    Route::post('/store',[newInformationController::class,'store'])->name('infoStore');
+    Route::post('/update/{newInfo:id}',[newInformationController::class,'update'])->name('infoUpdate');
+    Route::post('/delete/{newInfo:id}',[newInformationController::class,'destroy'])->name('infoDelete');
+});
