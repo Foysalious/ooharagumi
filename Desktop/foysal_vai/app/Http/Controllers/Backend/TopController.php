@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Top;
+use Auth;
+use Carbon;
 
 class TopController extends Controller
 {
@@ -41,11 +43,12 @@ class TopController extends Controller
         $top->date = $request->date;
         $top->title = $request->title;
         $top->description = $request->description;
-        $top->unknown1 = $request->unknown1;
-        $top->unknown2 = $request->unknown2;
-        $top->unknown3 = $request->unknown3;
-        $top->unknown4 = $request->unknown4;
-        $top->info_id = $request->info_id;
+        $top->creation_date = Carbon::now()->toDateTimeString();
+        $top->author_id = Auth::user()->id;
+       
+        
+        
+        $top->logo = $request->logo;
         if( $request->image ){
             $image  = $request->file('image');
             $img    = rand(0, 100) . '.' . $image->getClientOriginalExtension();
@@ -54,13 +57,6 @@ class TopController extends Controller
             $top->image = $img;
         }
 
-        if( $request->logo ){
-            $image  = $request->file('logo');
-            $img    = rand(0, 100) . '.' . $image->getClientOriginalExtension();
-            $location = public_path('images/' . $img);
-            Image::make($image)->save($location);
-            $top->logo = $img;
-        }
       
         $top->save();
         // Toastr::success('Personal Info');
@@ -102,11 +98,12 @@ class TopController extends Controller
         $top->date = $request->date;
         $top->title = $request->title;
         $top->description = $request->description;
-        $top->unknown1 = $request->unknown1;
-        $top->unknown2 = $request->unknown2;
-        $top->unknown3 = $request->unknown3;
-        $top->unknown4 = $request->unknown4;
-        $top->info_id = $request->info_id;
+        
+        $top->update_date = Carbon::now()->toDateTimeString();
+        $top->changer = Auth::user()->id;
+      
+        $top->logo = $request->logo;
+        
 
         if( $request->image ){
             if( File::exists('images/'. $top->image) ){
@@ -119,16 +116,7 @@ class TopController extends Controller
             $top->image = $img;
         }
 
-        if( $request->logo ){
-            if( File::exists('images/'. $top->logo) ){
-                File::delete('images/'. $top->logo);
-            }
-            $image  = $request->file('logo');
-            $img    = rand(0, 100) . '.' . $image->getClientOriginalExtension();
-            $location = public_path('images/' . $img);
-            Image::make($image)->save($location);
-            $top->logo = $img;
-        }
+        
 
         $top->save();
         // Toastr::success('Personal Info');

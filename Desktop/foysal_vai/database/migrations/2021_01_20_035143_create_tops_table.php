@@ -21,11 +21,11 @@ class CreateTopsTable extends Migration
             $table->string('image')->nullable();
             $table->string('logo')->nullable();
             $table->longText('description')->nullable();
-            $table->string('unknown1')->nullable();
-            $table->string('unknown2')->nullable();
-            $table->string('unknown3')->nullable();
-            $table->string('unknown4')->nullable();
-            $table->string('info_id')->nullable();
+            $table->string('creation_date')->nullable();
+            $table->string('author_id')->nullable();
+            $table->string('update_date')->nullable();
+            $table->string('changer')->nullable();
+       
             $table->timestamps();
         });
     }
